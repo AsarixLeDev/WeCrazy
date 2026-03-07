@@ -1,0 +1,42 @@
+package ch.asarix.wecrazy;
+
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
+public class ModItems {
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Wecrazy.MODID);
+
+    public static final DeferredItem<Item> GIGGLE_LEAF =
+            ITEMS.registerItem("giggle_leaf", props ->
+                    new Item(props.food(new FoodProperties.Builder()
+                            .nutrition(2)
+                            .saturationModifier(0.3f)
+                            .alwaysEdible()
+                            .build()
+                    ))
+            );
+
+    public static final DeferredItem<BlockItem> GIGGLE_SEEDS =
+            ITEMS.registerItem(
+                    "giggle_seeds",
+                    props -> new BlockItem(ModBlocks.GIGGLE_CROP.get(), props)
+            );
+
+    public static final DeferredItem<BlockItem> POOPY_SEEDS =
+            ITEMS.registerItem(
+                    "poopy_seeds",
+                    props -> new BlockItem(ModBlocks.POOPY_CROP.get(), props)
+            );
+
+    public static final DeferredItem<BlockItem> METH_ORE_ITEM =
+            ITEMS.registerSimpleBlockItem(ModBlocks.METH_ORE);
+
+    public static final DeferredItem<BlockItem> DEEPSLATE_METH_ORE_ITEM =
+            ITEMS.registerSimpleBlockItem(ModBlocks.DEEPSLATE_METH_ORE);
+
+    public static final DeferredItem<Item> METH_SHARD =
+            ITEMS.registerSimpleItem("meth_shard");
+}

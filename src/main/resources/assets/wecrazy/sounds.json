@@ -1,0 +1,27 @@
+{
+  "fart": {
+    "sounds": [
+      "wecrazy:fart",
+      "wecrazy:fart1",
+      "wecrazy:fart2",
+      "wecrazy:fart3",
+      "wecrazy:fart4",
+      "wecrazy:fart5",
+      "wecrazy:fart6",
+      "wecrazy:fart7",
+      "wecrazy:fart8",
+      "wecrazy:fart9",
+      "wecrazy:fart11",
+      "wecrazy:fart12",
+      "wecrazy:fart13",
+      "wecrazy:fart14",
+      "wecrazy:fart15"
+    ]
+  },
+  "fart1": {
+    "sounds": [ "wecrazy:fart1" ]
+  },
+  "fart2": {
+    "sounds": [ "wecrazy:fart2" ]
+  }
+}
