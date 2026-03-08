@@ -2,7 +2,7 @@ package ch.asarix.wecrazy.listeners;
 
 import ch.asarix.wecrazy.ModItems;
 import ch.asarix.wecrazy.ShaderEffect;
-import ch.asarix.wecrazy.Wecrazy;
+import ch.asarix.wecrazy.WeCrazy;
 import ch.asarix.wecrazy.client.WeedFxCycle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
@@ -11,7 +11,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 
-@EventBusSubscriber(modid = Wecrazy.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = WeCrazy.MODID, value = Dist.CLIENT)
 public final class WeedLeafListener {
 
     @SubscribeEvent

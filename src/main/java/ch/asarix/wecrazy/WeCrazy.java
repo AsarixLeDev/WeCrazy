@@ -13,16 +13,17 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 
-@Mod(Wecrazy.MODID)
-public class Wecrazy {
+@Mod(WeCrazy.MODID)
+public class WeCrazy {
     public static final String MODID = "wecrazy";
 
-    public Wecrazy(IEventBus modEventBus, ModContainer modContainer) {
+    public WeCrazy(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
 
         ModBlocks.BLOCKS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModSounds.SOUND_EVENTS.register(modEventBus);
+        ModEntities.ENTITY_TYPES.register(modEventBus);
         // Note that this is necessary if and only if we want *this* class (Wecrazy) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);

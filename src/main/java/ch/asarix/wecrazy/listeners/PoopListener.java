@@ -1,6 +1,6 @@
 package ch.asarix.wecrazy.listeners;
 
-import ch.asarix.wecrazy.Wecrazy;
+import ch.asarix.wecrazy.WeCrazy;
 import ch.asarix.wecrazy.network.PoopPayload;
 import ch.asarix.wecrazy.network.SneakPayload;
 import net.minecraft.client.Minecraft;
@@ -11,7 +11,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
-@EventBusSubscriber(modid = Wecrazy.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = WeCrazy.MODID, value = Dist.CLIENT)
 public class PoopListener {
 
     private static final int POOP_COOLDOWN_TICKS = 3 * 20; // 3 seconds

@@ -1,5 +1,6 @@
 package ch.asarix.wecrazy;
 
+import ch.asarix.wecrazy.items.WeedLeafItem;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -7,11 +8,11 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModItems {
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Wecrazy.MODID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(WeCrazy.MODID);
 
     public static final DeferredItem<Item> WEED_LEAF =
             ITEMS.registerItem("weed_leaf", props ->
-                    new Item(props.food(new FoodProperties.Builder()
+                    new WeedLeafItem(props.food(new FoodProperties.Builder()
                             .nutrition(2)
                             .saturationModifier(0.3f)
                             .alwaysEdible()

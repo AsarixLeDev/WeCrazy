@@ -18,10 +18,13 @@
       "wecrazy:fart15"
     ]
   },
-  "fart1": {
-    "sounds": [ "wecrazy:fart1" ]
-  },
-  "fart2": {
-    "sounds": [ "wecrazy:fart2" ]
+  "stoned_animal_music": {
+    "sounds": [
+      {
+        "name": "wecrazy:stoned_animal_music",
+        "stream": true,
+        "attenuation_distance": 16
+      }
+    ]
   }
 }

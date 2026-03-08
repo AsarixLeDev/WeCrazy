@@ -2,7 +2,7 @@ package ch.asarix.wecrazy.client;
 
 
 import ch.asarix.wecrazy.ShaderEffect;
-import ch.asarix.wecrazy.Wecrazy;
+import ch.asarix.wecrazy.WeCrazy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -10,7 +10,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 
-@EventBusSubscriber(modid = Wecrazy.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = WeCrazy.MODID, value = Dist.CLIENT)
 public final class WeedFxCycle {
     private static int ticksLeft = 0;
     private static int frame = 0;
@@ -38,7 +38,7 @@ public final class WeedFxCycle {
             String effectFile = shaderEffect.getName() + "_" + suffix;
 
             mc.gameRenderer.setPostEffect(
-                    ResourceLocation.fromNamespaceAndPath(Wecrazy.MODID, effectFile)
+                    ResourceLocation.fromNamespaceAndPath(WeCrazy.MODID, effectFile)
             );
 
             if (ticksLeft == 0) {

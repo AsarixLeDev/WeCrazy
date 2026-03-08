@@ -117,7 +117,7 @@ def make_halo_spec(modid: str) -> EffectSpec:
     And use Phase in sin/cos.
     """
     return EffectSpec(
-        prefix="giggle_halo",
+        prefix="halo",
         fragment_shader_path=f"{modid}:post/giggle_halo_anim",
         uniform_block="HaloUniform",
         # static uniforms (ORDER must match GLSL AFTER Phase)

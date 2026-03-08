@@ -3,7 +3,7 @@ package ch.asarix.wecrazy.network;
 import ch.asarix.wecrazy.ModBlocks;
 import ch.asarix.wecrazy.ModItems;
 import ch.asarix.wecrazy.ModSounds;
-import ch.asarix.wecrazy.Wecrazy;
+import ch.asarix.wecrazy.WeCrazy;
 import ch.asarix.wecrazy.blocks.PoopyCropBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -19,12 +19,12 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-@EventBusSubscriber(modid = Wecrazy.MODID)
+@EventBusSubscriber(modid = WeCrazy.MODID)
 public final class NetworkHandler {
 
     @SubscribeEvent
     public static void registerPayloads(RegisterPayloadHandlersEvent event) {
-        PayloadRegistrar registrar = event.registrar(Wecrazy.MODID);
+        PayloadRegistrar registrar = event.registrar(WeCrazy.MODID);
 
         registrar.playToServer(
                 PoopPayload.TYPE,
@@ -51,6 +51,14 @@ public final class NetworkHandler {
 
                         ItemEntity item = new ItemEntity(level, x, y, z, stack);
                         item.setDeltaMovement(0, 0, 0); // no pop motion
+                        level.playSound(
+                                null,                 // null = also play for the player
+                                player.blockPosition(),
+                                ModSounds.FART.get(),
+                                SoundSource.AMBIENT,          // or SoundSource.BLOCKS, AMBIENT, etc.
+                                1.0f,                         // volume
+                                1.0f                          // pitch
+                        );
                         level.addFreshEntity(item);
                     });
                 }

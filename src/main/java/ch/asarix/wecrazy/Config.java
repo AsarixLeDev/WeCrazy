@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@EventBusSubscriber(modid = Wecrazy.MODID)
+@EventBusSubscriber(modid = WeCrazy.MODID)
 public class Config {
 
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();

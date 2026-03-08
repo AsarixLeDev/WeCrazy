@@ -13,7 +13,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS =
-            DeferredRegister.createBlocks(Wecrazy.MODID);
+            DeferredRegister.createBlocks(WeCrazy.MODID);
 
     public static final DeferredBlock<WeedCropBlock> WEED_CROP =
             BLOCKS.registerBlock(
