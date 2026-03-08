@@ -2,7 +2,7 @@
 from pathlib import Path
 import argparse
 
-ALLOWED_EXTS = {".java", ".json"}
+ALLOWED_EXTS = {".java", ".json", ".png", ".ogg"}
 
 
 def ask(question: str) -> bool:

@@ -156,8 +156,8 @@ def make_fog_spec(modid: str, use_depth: bool) -> EffectSpec:
         inputs.append({"sampler_name": "Depth", "target": "minecraft:main", "use_depth_buffer": True})
 
     return EffectSpec(
-        prefix="giggle_fog",
-        fragment_shader_path=f"{modid}:post/giggle_fog_anim",
+        prefix="smoke",
+        fragment_shader_path=f"{modid}:post/smoke_anim",
         uniform_block="FogUniform",
         static_uniforms=[
             u_float("FogStrength", 0.55),
@@ -202,13 +202,8 @@ def main():
     halo = make_halo_spec(modid)
     fog = make_fog_spec(modid, use_depth=args.fog_depth)
 
-    # write_presets(resources_dir, modid, halo, args.steps)
-    write_presets(resources_dir, modid, fog, args.steps)
-
-    print("\nNext:")
-    print(f" - Post effect IDs become: {modid}:giggle_halo_00 .. {modid}:giggle_halo_{args.steps-1:02d}")
-    print(f" - and:                {modid}:giggle_fog_00  .. {modid}:giggle_fog_{args.steps-1:02d}")
-    print(" - Cycle them from Java each tick for animation.")
+    write_presets(resources_dir, modid, halo, 64)
+    write_presets(resources_dir, modid, fog, 512)
 
 
 if __name__ == "__main__":
