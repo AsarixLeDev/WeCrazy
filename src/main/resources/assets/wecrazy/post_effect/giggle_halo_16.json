@@ -1,0 +1,49 @@
+{
+  "passes": [
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "wecrazy:post/giggle_halo_anim",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "minecraft:main"
+        }
+      ],
+      "output": "minecraft:main",
+      "uniforms": {
+        "HaloUniform": [
+          {
+            "name": "Phase",
+            "type": "float",
+            "value": 1.5707963267948966
+          },
+          {
+            "name": "Warp",
+            "type": "float",
+            "value": 0.25
+          },
+          {
+            "name": "HaloStrength",
+            "type": "float",
+            "value": 0.9
+          },
+          {
+            "name": "EdgeStart",
+            "type": "float",
+            "value": 0.35
+          },
+          {
+            "name": "EdgeEnd",
+            "type": "float",
+            "value": 0.71
+          },
+          {
+            "name": "Chromatic",
+            "type": "float",
+            "value": 0.012
+          }
+        ]
+      }
+    }
+  ]
+}
