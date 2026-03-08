@@ -1,8 +1,8 @@
 package ch.asarix.wecrazy;
 
 public enum ShaderEffect {
-    FOG("giggle_fog", 512),
-    HALO("giggle_halo", 64);
+    FOG("weed_fog", 512),
+    HALO("weed_halo", 64);
     private final String name;
     private final int frames;
 

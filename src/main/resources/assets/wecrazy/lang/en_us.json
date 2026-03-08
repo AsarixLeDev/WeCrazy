@@ -1,8 +1,9 @@
 {
-  "item.wecrazy.giggle_leaf": "Giggle Leaf",
-  "item.wecrazy.giggle_seeds": "Giggle Seeds",
+  "item.wecrazy.weed_leaf": "Weed Leaf",
+  "item.wecrazy.weed_seeds": "Weed Seeds",
   "item.wecrazy.poopy_seeds": "Poopy Seeds",
   "item.wecrazy.poop": "Poop",
   "block.wecrazy.meth_ore": "Meth Ore",
-  "block.wecrazy.deepslate_meth_ore": "Deepslate Meth Ore"
+  "block.wecrazy.deepslate_meth_ore": "Deepslate Meth Ore",
+  "item.wecrazy.meth_shard": "Meth Shard"
 }

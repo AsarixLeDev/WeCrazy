@@ -13,8 +13,8 @@ public class CreativeTabEvents {
     @SubscribeEvent
     public static void buildContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
-            event.accept(ModItems.GIGGLE_SEEDS.get());
-            event.accept(ModItems.GIGGLE_LEAF.get());
+            event.accept(ModItems.WEED_SEEDS.get());
+            event.accept(ModItems.WEED_LEAF.get());
         }
     }
 }

@@ -1,6 +1,6 @@
 package ch.asarix.wecrazy;
 
-import ch.asarix.wecrazy.blocks.GiggleCropBlock;
+import ch.asarix.wecrazy.blocks.WeedCropBlock;
 import ch.asarix.wecrazy.blocks.PoopyCropBlock;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Block;
@@ -15,10 +15,10 @@ public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS =
             DeferredRegister.createBlocks(Wecrazy.MODID);
 
-    public static final DeferredBlock<GiggleCropBlock> GIGGLE_CROP =
+    public static final DeferredBlock<WeedCropBlock> WEED_CROP =
             BLOCKS.registerBlock(
-                    "giggle_crop",
-                    GiggleCropBlock::new,
+                    "weed_crop",
+                    WeedCropBlock::new,
                     () -> BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)
             );
 

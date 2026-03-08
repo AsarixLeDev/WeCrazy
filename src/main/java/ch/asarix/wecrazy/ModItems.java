@@ -9,8 +9,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Wecrazy.MODID);
 
-    public static final DeferredItem<Item> GIGGLE_LEAF =
-            ITEMS.registerItem("giggle_leaf", props ->
+    public static final DeferredItem<Item> WEED_LEAF =
+            ITEMS.registerItem("weed_leaf", props ->
                     new Item(props.food(new FoodProperties.Builder()
                             .nutrition(2)
                             .saturationModifier(0.3f)
@@ -19,10 +19,10 @@ public class ModItems {
                     ))
             );
 
-    public static final DeferredItem<BlockItem> GIGGLE_SEEDS =
+    public static final DeferredItem<BlockItem> WEED_SEEDS =
             ITEMS.registerItem(
-                    "giggle_seeds",
-                    props -> new BlockItem(ModBlocks.GIGGLE_CROP.get(), props)
+                    "weed_seeds",
+                    props -> new BlockItem(ModBlocks.WEED_CROP.get(), props)
             );
 
     public static final DeferredItem<BlockItem> POOPY_SEEDS =
