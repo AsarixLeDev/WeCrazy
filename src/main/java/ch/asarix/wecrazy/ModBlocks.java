@@ -1,5 +1,6 @@
 package ch.asarix.wecrazy;
 
+import ch.asarix.wecrazy.blocks.GrindingBowlBlock;
 import ch.asarix.wecrazy.blocks.WeedCropBlock;
 import ch.asarix.wecrazy.blocks.PoopyCropBlock;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -53,5 +54,13 @@ public class ModBlocks {
                     .explosionResistance(3.0F)
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.DEEPSLATE)
+    );
+
+    public static final DeferredBlock<Block> GRINDING_BOWL = BLOCKS.registerBlock(
+            "grinding_bowl",
+            GrindingBowlBlock::new,
+            () -> BlockBehaviour.Properties.of()
+                    .strength(1.2F)
+                    .sound(SoundType.STONE)
     );
 }

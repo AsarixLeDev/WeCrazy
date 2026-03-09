@@ -43,4 +43,13 @@ public class ModItems {
 
     public static final DeferredItem<Item> BANG =
             ITEMS.registerSimpleItem("bang", properties -> properties.stacksTo(1));
+
+    public static final DeferredItem<Item> WEED_POWDER =
+            ITEMS.registerSimpleItem("weed_powder");
+
+    public static final DeferredItem<Item> METH_POWDER =
+            ITEMS.registerSimpleItem("meth_powder");
+
+    public static final DeferredItem<Item> GRINDING_TOOL =
+            ITEMS.registerSimpleItem("grinding_tool");
 }

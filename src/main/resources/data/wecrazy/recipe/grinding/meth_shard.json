@@ -1,0 +1,11 @@
+{
+  "type": "wecrazy:grinding",
+  "ingredient": {
+    "item": "wecrazy:meth_crystal"
+  },
+  "result": {
+    "id": "wecrazy:meth_powder",
+    "count": 1
+  },
+  "clicks_required": 8
+}

@@ -1,8 +1,12 @@
 package ch.asarix.wecrazy;
 
 public enum ShaderEffect {
-    FOG("smoke", 512),
-    HALO("halo", 64);
+    FOG("smoke", 64),
+    HALO("halo", 64),
+    KALEIDO("kaleido", 64),
+    LIQUID("liquid", 64),
+    MANDALA("mandala", 64),
+    MOIRE("moire", 64);
     private final String name;
     private final int frames;
 
@@ -20,6 +24,6 @@ public enum ShaderEffect {
     }
 
     public String formatFrameSuffix(int frame) {
-        return String.format("%0" + ((int) Math.ceil(Math.log10(frames))) + "d", frame);
+        return String.format("%03d", frame);
     }
 }

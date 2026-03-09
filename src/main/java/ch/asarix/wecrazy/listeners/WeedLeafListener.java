@@ -23,6 +23,6 @@ public final class WeedLeafListener {
 
         if (!event.getItem().is(ModItems.WEED_LEAF.get())) return;
 
-        WeedFxCycle.start(10 * 20, ShaderEffect.FOG);
+        WeedFxCycle.start(10 * 20, ShaderEffect.LIQUID);
     }
 }

@@ -30,35 +30,31 @@ public final class NetworkHandler {
                 PoopPayload.TYPE,
                 PoopPayload.STREAM_CODEC,
                 (payload, ctx) -> {
-                    // Always enqueue to the server thread
                     ctx.enqueueWork(() -> {
                         ServerPlayer player = (ServerPlayer) ctx.player();
                         if (player == null) return;
 
-                        // Optional: server-side “is actually crouching” check
                         if (!player.isCrouching()) return;
-
-                        // Drop a diamond at feet
                         Level level = player.level();
 
-                        // Item to drop
+                        level.playSound(
+                                null,
+                                player.blockPosition(),
+                                ModSounds.FART.get(),
+                                SoundSource.AMBIENT,
+                                1.0f,
+                                1.0f
+                        );
+
                         ItemStack stack = new ItemStack(ModItems.POOPY_SEEDS.get());
 
-                        // Spawn near feet
                         double x = player.getX();
                         double y = player.getBoundingBox().minY + 0.05;
                         double z = player.getZ();
 
                         ItemEntity item = new ItemEntity(level, x, y, z, stack);
-                        item.setDeltaMovement(0, 0, 0); // no pop motion
-                        level.playSound(
-                                null,                 // null = also play for the player
-                                player.blockPosition(),
-                                ModSounds.FART.get(),
-                                SoundSource.AMBIENT,          // or SoundSource.BLOCKS, AMBIENT, etc.
-                                1.0f,                         // volume
-                                1.0f                          // pitch
-                        );
+                        item.setDeltaMovement(0, 0, 0);
+
                         level.addFreshEntity(item);
                     });
                 }
@@ -80,12 +76,12 @@ public final class NetworkHandler {
                         PoopyCropBlock crop = (PoopyCropBlock) blockState.getBlock();
                         crop.fart((ServerLevel) level, feetPos);
                         level.playSound(
-                                null,                 // null = also play for the player
+                                null,
                                 feetPos,
                                 ModSounds.FART.get(),
-                                SoundSource.AMBIENT,          // or SoundSource.BLOCKS, AMBIENT, etc.
-                                1.0f,                         // volume
-                                1.0f                          // pitch
+                                SoundSource.AMBIENT,
+                                1.0f,
+                                1.0f
                         );
                     }
                 }));
