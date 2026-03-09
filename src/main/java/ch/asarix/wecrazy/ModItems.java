@@ -40,4 +40,7 @@ public class ModItems {
 
     public static final DeferredItem<Item> METH_SHARD =
             ITEMS.registerSimpleItem("meth_shard");
+
+    public static final DeferredItem<Item> BANG =
+            ITEMS.registerSimpleItem("bang", properties -> properties.stacksTo(1));
 }
