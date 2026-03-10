@@ -3,7 +3,6 @@
 
 uniform sampler2D InSampler;
 
-in vec2 texCoord;
 out vec4 fragColor;
 
 layout(std140) uniform LiquidUniform {
@@ -20,14 +19,31 @@ vec3 palette(float t) {
     return 0.5 + 0.5 * cos(TAU * (t + vec3(0.0, 0.33, 0.67)));
 }
 
+vec2 clampUV(vec2 uv, vec2 res) {
+    vec2 h = 0.5 / res;
+    return clamp(uv, h, 1.0 - h);
+}
+
+vec4 sampleScreen(vec2 uv, vec2 res) {
+    return textureLod(InSampler, clampUV(uv, res), 0.0);
+}
+
 void main() {
-    vec2 uv = texCoord;
-    vec2 p  = (uv - vec2(0.5)) * 2.0;
+    vec2 res = vec2(textureSize(InSampler, 0));
+
+    // Rebuild screen UV from fragment position instead of interpolated texCoord
+    vec2 uv = gl_FragCoord.xy / res;
+
+    // If your image comes out vertically flipped in Minecraft, use this instead:
+    // uv.y = 1.0 - uv.y;
+
+    float aspect = res.x / res.y;
+    vec2 p = (uv - 0.5) * 2.0;
+    p.x *= aspect;
+
     float r = length(p);
+    vec2 q = p * max(Scale, 0.01);
 
-    vec2 q = p * Scale;
-
-    // Every Phase coefficient is now an integer => exact 2π loop
     vec2 flow = vec2(
     sin(1.7 * q.y + 1.0 * Phase)
     + cos(1.3 * q.x - 2.0 * Phase)
@@ -41,19 +57,25 @@ void main() {
     vec2 flow2 = vec2(
     sin(2.6 * q.y - 2.0 * Phase),
     cos(2.4 * q.x + 3.0 * Phase)
+    ) / 2.0;
+
+    float breathe = 0.6 + 0.4 * cos(Phase + r * 8.0);
+    vec2 offset = (0.75 * flow + 0.25 * flow2) * breathe;
+
+    vec2 uvOffset = offset;
+    uvOffset.x /= aspect;
+
+    float warpAmt = 0.08 * max(Warp, 0.0);
+    vec2 warped = uv + uvOffset * warpAmt;
+
+    float chromaAmt = max(Chromatic, 0.0) * 0.012 * (0.4 + 0.6 * r);
+    vec2 ca = uvOffset * chromaAmt;
+
+    vec3 col = vec3(
+    sampleScreen(warped + ca, res).r,
+    sampleScreen(warped,      res).g,
+    sampleScreen(warped - ca, res).b
     );
-
-    vec2 offset = Warp * (0.75 * flow + 0.25 * flow2) * (0.6 + 0.4 * cos(Phase + r * 8.0));
-    vec2 warped = uv + 0.08 * offset;
-
-    vec2 dir = normalize(offset + 1e-6);
-    vec2 ca  = dir * Chromatic * (0.4 + 0.6 * r);
-
-    float rr = texture(InSampler, warped + ca).r;
-    float gg = texture(InSampler, warped).g;
-    float bb = texture(InSampler, warped - ca).b;
-
-    vec3 col = vec3(rr, gg, bb);
 
     float bands = 0.5 + 0.5 * sin(
     7.0 * flow.x +
@@ -62,8 +84,11 @@ void main() {
     1.0 * Phase
     );
 
-    vec3 ink = palette(0.15 * bands + 0.08 * sin(2.0 * Phase + dot(flow, flow) * 4.0));
-    col += Overlay * bands * ink;
+    float inkT = 0.15 * bands
+    + 0.08 * sin(2.0 * Phase + dot(flow, flow) * 4.0);
+    vec3 ink = palette(inkT);
 
-    fragColor = vec4(col, 1.0);
+    col += max(Overlay, 0.0) * bands * ink;
+
+    fragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
 }

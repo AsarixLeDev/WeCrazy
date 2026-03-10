@@ -59,4 +59,15 @@ public class ModItems {
 
     public static final DeferredItem<BlockItem> GRINDING_BOWL =
             ITEMS.registerSimpleBlockItem(ModBlocks.GRINDING_BOWL);
+
+    public static final DeferredItem<Item> LSD_BOTTLE =
+            ITEMS.registerSimpleItem("lsd_bottle");
+
+    public static final DeferredItem<Item> LSD_DROP =
+            ITEMS.registerSimpleItem("lsd_drop", properties -> properties.food(new FoodProperties.Builder()
+                    .nutrition(2)
+                    .saturationModifier(0.3f)
+                    .alwaysEdible()
+                    .build()
+            ));
 }

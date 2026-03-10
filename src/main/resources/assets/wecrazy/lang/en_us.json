@@ -8,5 +8,7 @@
   "block.wecrazy.deepslate_meth_ore": "Deepslate Meth Ore",
   "item.wecrazy.meth_shard": "Meth Shard",
   "item.wecrazy.meth_powder": "Meth Powder",
-  "item.wecrazy.bang": "Bang"
+  "item.wecrazy.bang": "Bang",
+  "item.wecrazy.grinding_tool": "Grinding Tool",
+  "block.wecrazy.grinding_bowl": "Grinding Bowl"
 }

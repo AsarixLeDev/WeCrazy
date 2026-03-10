@@ -4,6 +4,7 @@ import ch.asarix.wecrazy.items.smokable.SmokableItem;
 import ch.asarix.wecrazy.menu.BangMenu;
 import ch.asarix.wecrazy.menu.SingleSlotItemContainer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -80,6 +81,9 @@ public class BangItem extends Item {
 
     @Override
     public void onUseTick(Level level, LivingEntity living, ItemStack bang, int remainingUseDuration) {
+
+        if (!(living instanceof ServerPlayer serverPlayer)) return;
+
         super.onUseTick(level, living, bang, remainingUseDuration);
 
         int usedTicks = this.getUseDuration(bang, living) - remainingUseDuration;
@@ -91,7 +95,8 @@ public class BangItem extends Item {
             ItemStack consumed = consumeLoadedContent(bang);
             if (!consumed.isEmpty()) {
                 if (consumed.getItem() instanceof SmokableItem smokableItem) {
-                    smokableItem.effect().start(10*20);
+                    smokableItem.shaderEffects().start(10*20);
+                    smokableItem.startEffects(10*20, serverPlayer);
                 }
                 level.playSound(
                         null,

@@ -9,6 +9,7 @@ This version supports:
 - liquid    -> <modid>:post/psy_liquid
 - mandala   -> <modid>:post/psy_mandala
 - moire     -> <modid>:post/psy_moire
+- lsd       -> <modid>:post/psy_lsd
 
 Example:
   python generate_post_presets.py \
@@ -20,7 +21,9 @@ Example:
 Notes:
 - Uniform order in JSON MUST match GLSL block order exactly.
 - "sampler_name": "In" becomes InSampler in GLSL.
-- For perfect loops, Phase is generated as: TAU * i / steps
+- For perfect loops, Phase / Offset is generated as: TAU * i / steps
+- To avoid framebuffer feedback artifacts, effects are generated as:
+    minecraft:main -> swap -> minecraft:main
 """
 
 from __future__ import annotations
@@ -64,34 +67,59 @@ class EffectSpec:
     static_uniforms: List[UniformEntry]
     dynamic_uniforms_fn: Callable[[int, int], List[UniformEntry]]
     inputs: List[Dict[str, Any]]
-    output: str = "minecraft:main"
     vertex_shader: str = "minecraft:core/screenquad"
+    intermediate_target: str = "swap"
+    blit_back: bool = True
 
 
 # -----------------------------
 # JSON builder
 # -----------------------------
 
-def build_post_effect_json(spec: EffectSpec, dyn_uniforms: List[UniformEntry]) -> Dict[str, Any]:
-    uniform_list = [*dyn_uniforms, *spec.static_uniforms]
-
+def build_uniform_block(
+        uniform_block: str,
+        dyn_uniforms: List[UniformEntry],
+        static_uniforms: List[UniformEntry],
+) -> Dict[str, Any]:
+    uniform_list = [*dyn_uniforms, *static_uniforms]
     return {
-        "passes": [
-            {
-                "vertex_shader": spec.vertex_shader,
-                "fragment_shader": spec.fragment_shader_path,
-                "inputs": spec.inputs,
-                "output": spec.output,
-                "uniforms": {
-                    spec.uniform_block: [
-                        {"name": u.name, "type": u.type, "value": u.value}
-                        for u in uniform_list
-                    ]
-                },
-            }
+        uniform_block: [
+            {"name": u.name, "type": u.type, "value": u.value}
+            for u in uniform_list
         ]
     }
 
+
+def build_post_effect_json(spec: EffectSpec, dyn_uniforms: List[UniformEntry], modid: str) -> Dict[str, Any]:
+    first_pass = {
+        "vertex_shader": spec.vertex_shader,
+        "fragment_shader": spec.fragment_shader_path,
+        "inputs": spec.inputs,
+        "output": spec.intermediate_target if spec.blit_back else "minecraft:main",
+        "uniforms": build_uniform_block(spec.uniform_block, dyn_uniforms, spec.static_uniforms),
+    }
+
+    if not spec.blit_back:
+        return {"passes": [first_pass]}
+
+    blit_pass = {
+        "vertex_shader": f"{modid}:post/liquid_triangle",
+        "fragment_shader": f"{modid}:post/copy",
+        "inputs": [
+            {
+                "sampler_name": "In",
+                "target": spec.intermediate_target,
+            }
+        ],
+        "output": "minecraft:main",
+    }
+
+    return {
+        "targets": {
+            spec.intermediate_target: {}
+        },
+        "passes": [first_pass, blit_pass],
+    }
 
 # -----------------------------
 # Shared helpers
@@ -102,6 +130,10 @@ TAU = math.tau
 
 def phase_uniform(i: int, steps: int) -> List[UniformEntry]:
     return [u_float("Phase", TAU * i / steps)]
+
+
+def offset_uniform(i: int, steps: int) -> List[UniformEntry]:
+    return [u_float("Offset", TAU * i / steps)]
 
 
 def scalar_loop_uniform(name: str, i: int, steps: int) -> List[UniformEntry]:
@@ -124,7 +156,6 @@ def main_plus_depth() -> List[Dict[str, Any]]:
 # -----------------------------
 
 def make_halo_spec(modid: str) -> EffectSpec:
-    # GLSL block:
     # layout(std140) uniform HaloUniform {
     #     float Phase;
     #     float Warp;
@@ -150,23 +181,28 @@ def make_halo_spec(modid: str) -> EffectSpec:
 
 
 def make_smoke_spec(modid: str, use_depth: bool) -> EffectSpec:
-    # Matches your pasted GLSL:
     # layout(std140) uniform FogUniform {
     #     float Offset;
     #     float FogStrength;
     #     float FogScale;
     #     vec3  FogColor;
+    #     float FogSpeed;
     # };
+    #
+    # Note:
+    # FogSpeed is kept at 1.0 here so a translation-based tile loop
+    # can actually close perfectly over one Offset cycle.
     return EffectSpec(
         prefix="smoke",
         fragment_shader_path=f"{modid}:post/smoke_anim",
         uniform_block="FogUniform",
         static_uniforms=[
-            u_float("FogStrength", 0.55),
-            u_float("FogScale", 3.0),
+            u_float("FogStrength", 1.2),
+            u_float("FogScale", 1.3),
             u_vec3("FogColor", 0.90, 0.90, 0.90),
+            u_float("FogSpeed", 32.0),
         ],
-        dynamic_uniforms_fn=lambda i, steps: scalar_loop_uniform("Offset", i, steps),
+        dynamic_uniforms_fn=offset_uniform,
         inputs=main_plus_depth() if use_depth else main_input_only(),
     )
 
@@ -215,6 +251,7 @@ def make_liquid_spec(modid: str) -> EffectSpec:
             u_float("Overlay", 0.30),
         ],
         dynamic_uniforms_fn=phase_uniform,
+        vertex_shader=f"{modid}:post/liquid_triangle",
         inputs=main_input_only(),
     )
 
@@ -265,6 +302,31 @@ def make_moire_spec(modid: str) -> EffectSpec:
     )
 
 
+def make_lsd_spec(modid: str) -> EffectSpec:
+    # layout(std140) uniform LiquidUniform {
+    #     float Phase;
+    #     float Amplitude;
+    #     float Frequency;
+    #     float Swirl;
+    #     float Chromatic;
+    #     float Caustics;
+    # };
+    return EffectSpec(
+        prefix="lsd",
+        fragment_shader_path=f"{modid}:post/psy_lsd",
+        uniform_block="LiquidUniform",
+        static_uniforms=[
+            u_float("Amplitude", 1.2),
+            u_float("Frequency", 1.1),
+            u_float("Swirl", 1.0),
+            u_float("Chromatic", 0.7),
+            u_float("Caustics", 1.2),
+        ],
+        dynamic_uniforms_fn=phase_uniform,
+        inputs=main_input_only(),
+    )
+
+
 # -----------------------------
 # Writing
 # -----------------------------
@@ -274,7 +336,7 @@ def write_presets(resources_dir: Path, modid: str, spec: EffectSpec, steps: int)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     for i in range(steps):
-        data = build_post_effect_json(spec, spec.dynamic_uniforms_fn(i, steps))
+        data = build_post_effect_json(spec, spec.dynamic_uniforms_fn(i, steps), modid)
         path = out_dir / f"{spec.prefix}_{i:03d}.json"
         path.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
@@ -288,13 +350,13 @@ def write_presets(resources_dir: Path, modid: str, spec: EffectSpec, steps: int)
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--modid", required=True, help="Your mod id, e.g. wecrazy")
-    ap.add_argument("--steps", type=int, default=64, help="Preset count per effect")
+    ap.add_argument("--steps", type=int, default=64, help="Default preset count per effect")
     ap.add_argument("--resources", required=True, help="Path to src/main/resources")
     ap.add_argument(
         "--effects",
         nargs="+",
         default=["kaleido", "liquid", "mandala", "moire"],
-        help="Effects to generate: halo smoke kaleido liquid mandala moire all",
+        help="Effects to generate: halo smoke kaleido liquid mandala moire lsd all",
     )
     ap.add_argument(
         "--fog-depth",
@@ -308,7 +370,7 @@ def main() -> None:
 
     requested = set(args.effects)
     if "all" in requested:
-        requested = {"halo", "smoke", "kaleido", "liquid", "mandala", "moire"}
+        requested = {"halo", "smoke", "kaleido", "liquid", "mandala", "moire", "lsd"}
 
     builders = {
         "halo": lambda: make_halo_spec(modid),
@@ -317,21 +379,24 @@ def main() -> None:
         "liquid": lambda: make_liquid_spec(modid),
         "mandala": lambda: make_mandala_spec(modid),
         "moire": lambda: make_moire_spec(modid),
+        "lsd": lambda: make_lsd_spec(modid),
     }
 
-    steps = {
-        "halo"   : 64,
-        "smoke"  : 512,
-        "liquid" : 128,
+    steps_by_effect = {
+        "halo": 64,
+        "smoke": 512,
+        "liquid": 128,
+        "lsd": 128,
     }
 
     unknown = sorted(requested - builders.keys())
     if unknown:
         raise SystemExit(f"Unknown effect(s): {', '.join(unknown)}")
 
-    for name in ["halo", "smoke", "kaleido", "liquid", "mandala", "moire"]:
+    for name in ["halo", "smoke", "kaleido", "liquid", "mandala", "moire", "lsd"]:
         if name in requested:
-            write_presets(resources_dir, modid, builders[name](), args.steps)
+            effect_steps = steps_by_effect.get(name, args.steps)
+            write_presets(resources_dir, modid, builders[name](), effect_steps)
 
 
 if __name__ == "__main__":
