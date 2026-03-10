@@ -1,8 +1,6 @@
 {
   "type": "wecrazy:grinding",
-  "ingredient": {
-    "item": "wecrazy:weed_leaf"
-  },
+  "ingredient": "wecrazy:weed_leaf",
   "result": {
     "id": "wecrazy:weed_powder",
     "count": 1

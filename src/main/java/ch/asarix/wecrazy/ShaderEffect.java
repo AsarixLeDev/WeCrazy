@@ -1,5 +1,8 @@
 package ch.asarix.wecrazy;
 
+import ch.asarix.wecrazy.client.WeedFxCycle;
+import net.minecraft.world.entity.player.Player;
+
 public enum ShaderEffect {
     FOG("smoke", 64),
     HALO("halo", 64),
@@ -25,5 +28,9 @@ public enum ShaderEffect {
 
     public String formatFrameSuffix(int frame) {
         return String.format("%03d", frame);
+    }
+
+    public void start(int duration) {
+        WeedFxCycle.start(duration, this);
     }
 }

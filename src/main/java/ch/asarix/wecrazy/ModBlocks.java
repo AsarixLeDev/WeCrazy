@@ -62,5 +62,6 @@ public class ModBlocks {
             () -> BlockBehaviour.Properties.of()
                     .strength(1.2F)
                     .sound(SoundType.STONE)
+                    .noOcclusion()
     );
 }

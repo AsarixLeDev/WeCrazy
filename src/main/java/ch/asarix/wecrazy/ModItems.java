@@ -1,6 +1,10 @@
 package ch.asarix.wecrazy;
 
+import ch.asarix.wecrazy.items.BangItem;
 import ch.asarix.wecrazy.items.WeedLeafItem;
+import ch.asarix.wecrazy.items.smokable.MethPowderItem;
+import ch.asarix.wecrazy.items.smokable.WeedPowderItem;
+import com.jcraft.jorbis.Block;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -42,14 +46,17 @@ public class ModItems {
             ITEMS.registerSimpleItem("meth_shard");
 
     public static final DeferredItem<Item> BANG =
-            ITEMS.registerSimpleItem("bang", properties -> properties.stacksTo(1));
+            ITEMS.registerItem("bang", BangItem::new);
 
     public static final DeferredItem<Item> WEED_POWDER =
-            ITEMS.registerSimpleItem("weed_powder");
+            ITEMS.registerItem("weed_powder", WeedPowderItem::new);
 
     public static final DeferredItem<Item> METH_POWDER =
-            ITEMS.registerSimpleItem("meth_powder");
+            ITEMS.registerItem("meth_powder", MethPowderItem::new);
 
     public static final DeferredItem<Item> GRINDING_TOOL =
-            ITEMS.registerSimpleItem("grinding_tool");
+            ITEMS.registerSimpleItem("grinding_tool", properties -> properties.stacksTo(1));
+
+    public static final DeferredItem<BlockItem> GRINDING_BOWL =
+            ITEMS.registerSimpleBlockItem(ModBlocks.GRINDING_BOWL);
 }

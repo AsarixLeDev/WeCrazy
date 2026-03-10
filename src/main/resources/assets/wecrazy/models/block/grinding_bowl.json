@@ -1,6 +1,17 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "loader": "neoforge:obj",
+  "model": "wecrazy:models/block/grinding_bowl.obj",
+  "mtl_override": "wecrazy:models/block/grinding_bowl.mtl",
   "textures": {
-    "all": "wecrazy:block/grinding_bowl"
+    "texture0": "wecrazy:block/grinding_bowl",
+    "particle": "wecrazy:block/grinding_bowl"
+  },
+  "automatic_culling": false,
+  "shade_quads": false,
+  "ambientocclusion": false,
+  "flip_v": true,
+  "transform": {
+    "translation": [0.5, 0.0, 0.5],
+    "origin": "center"
   }
 }
