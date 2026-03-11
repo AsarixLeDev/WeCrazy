@@ -1,5 +1,7 @@
 package ch.asarix.wecrazy;
 
+import ch.asarix.wecrazy.worldgen.biome.PsychedelicValleyRegion;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -12,6 +14,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import terrablender.api.Regions;
 
 @Mod(WeCrazy.MODID)
 public class WeCrazy {
@@ -21,6 +24,7 @@ public class WeCrazy {
         modEventBus.addListener(this::commonSetup);
 
         ModBlocks.BLOCKS.register(modEventBus);
+        ModBlockTypes.BLOCK_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModSounds.SOUND_EVENTS.register(modEventBus);
         ModEntities.ENTITY_TYPES.register(modEventBus);
@@ -40,6 +44,12 @@ public class WeCrazy {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            Regions.register(new PsychedelicValleyRegion(
+                    ResourceLocation.fromNamespaceAndPath(MODID, "psychedelic_valley_region"),
+                    4
+            ));
+        });
     }
 
     // Add the example block item to the building blocks tab

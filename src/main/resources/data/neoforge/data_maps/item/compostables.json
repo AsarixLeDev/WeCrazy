@@ -1,0 +1,8 @@
+{
+  "values": {
+    "wecrazy:rye": {
+      "chance": 0.65,
+      "can_villager_compost": true
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "type": "neoforge:add_features",
   "biomes": "#c:is_overworld",
-  "features": "wecrazy:meth_ore",
+  "features": "wecrazy:meth_ore_common",
   "step": "underground_ores"
 }

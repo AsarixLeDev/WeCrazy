@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "wecrazy:psychedelic_valley",
+  "features": "wecrazy:rye_patch",
+  "step": "vegetal_decoration"
+}

@@ -10,5 +10,8 @@
   "item.wecrazy.meth_powder": "Meth Powder",
   "item.wecrazy.bang": "Bang",
   "item.wecrazy.grinding_tool": "Grinding Tool",
-  "block.wecrazy.grinding_bowl": "Grinding Bowl"
+  "block.wecrazy.grinding_bowl": "Grinding Bowl",
+  "block.wecrazy.rye": "Rye",
+  "item.wecrazy.rye": "Rye",
+  "biome.wecrazy.psychedelic_valley": "Psychedelic Valley"
 }

@@ -70,4 +70,7 @@ public class ModItems {
                     .alwaysEdible()
                     .build()
             ));
+
+    public static final DeferredItem<BlockItem> RYE = ITEMS.registerSimpleBlockItem(
+            "rye", ModBlocks.RYE);
 }

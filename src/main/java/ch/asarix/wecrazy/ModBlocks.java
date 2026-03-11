@@ -1,6 +1,7 @@
 package ch.asarix.wecrazy;
 
 import ch.asarix.wecrazy.blocks.GrindingBowlBlock;
+import ch.asarix.wecrazy.blocks.RyePlantBlock;
 import ch.asarix.wecrazy.blocks.WeedCropBlock;
 import ch.asarix.wecrazy.blocks.PoopyCropBlock;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -63,5 +64,15 @@ public class ModBlocks {
                     .strength(1.2F)
                     .sound(SoundType.STONE)
                     .noOcclusion()
+    );
+
+    public static final DeferredBlock<RyePlantBlock> RYE = BLOCKS.registerBlock(
+            "rye",
+            RyePlantBlock::new,
+            () -> BlockBehaviour.Properties.of()
+                    .noCollision()
+                    .instabreak()
+                    .replaceable()
+                    .sound(SoundType.GRASS)
     );
 }
