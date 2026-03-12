@@ -1,5 +1,6 @@
 package ch.asarix.wecrazy.items;
 
+import ch.asarix.wecrazy.client.shaders.ShaderManager;
 import ch.asarix.wecrazy.items.smokable.SmokableItem;
 import ch.asarix.wecrazy.menu.BangMenu;
 import ch.asarix.wecrazy.menu.SingleSlotItemContainer;
@@ -95,7 +96,7 @@ public class BangItem extends Item {
             ItemStack consumed = consumeLoadedContent(bang);
             if (!consumed.isEmpty()) {
                 if (consumed.getItem() instanceof SmokableItem smokableItem) {
-                    smokableItem.shaderEffects().start(10*20);
+                    ShaderManager.start(10*20, smokableItem.shaderEffects());
                     smokableItem.startEffects(10*20, serverPlayer);
                 }
                 level.playSound(

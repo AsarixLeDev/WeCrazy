@@ -7,7 +7,6 @@ import ch.asarix.wecrazy.WeCrazy;
 import ch.asarix.wecrazy.client.ber.GrindingBowlRenderer;
 import ch.asarix.wecrazy.client.renderer.StonedCowRenderer;
 import ch.asarix.wecrazy.client.screen.BangMenuScreen;
-import net.minecraft.client.renderer.entity.CowRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -16,7 +15,8 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 @EventBusSubscriber(modid = WeCrazy.MODID, value = Dist.CLIENT)
 public final class ClientModEvents {
-    private ClientModEvents() {}
+    private ClientModEvents() {
+    }
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {

@@ -1,5 +1,6 @@
 package ch.asarix.wecrazy;
 
+import ch.asarix.wecrazy.client.shaders.ShaderManager;
 import ch.asarix.wecrazy.worldgen.biome.PsychedelicValleyRegion;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -35,6 +36,8 @@ public class WeCrazy {
         // Note that this is necessary if and only if we want *this* class (Wecrazy) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
+
+        ShaderManager.registerShaders();
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);

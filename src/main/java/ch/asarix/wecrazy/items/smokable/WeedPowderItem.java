@@ -1,6 +1,7 @@
 package ch.asarix.wecrazy.items.smokable;
 
-import ch.asarix.wecrazy.ShaderEffect;
+import ch.asarix.wecrazy.client.shaders.AnimatedShader;
+import ch.asarix.wecrazy.client.shaders.ChromaticDreamShader;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Item;
@@ -14,8 +15,8 @@ public class WeedPowderItem extends Item implements SmokableItem {
     }
 
     @Override
-    public ShaderEffect shaderEffects() {
-        return ShaderEffect.FOG;
+    public Class<? extends AnimatedShader> shaderEffects() {
+        return ChromaticDreamShader.class;
     }
 
     @Override

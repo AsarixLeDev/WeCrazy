@@ -1,6 +1,7 @@
 package ch.asarix.wecrazy.items.smokable;
 
-import ch.asarix.wecrazy.ShaderEffect;
+import ch.asarix.wecrazy.client.shaders.AnimatedShader;
+import ch.asarix.wecrazy.client.shaders.VoidPulseShader;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
 
@@ -13,8 +14,8 @@ public class MethPowderItem extends Item implements SmokableItem {
     }
 
     @Override
-    public ShaderEffect shaderEffects() {
-        return ShaderEffect.LIQUID;
+    public Class<? extends AnimatedShader> shaderEffects() {
+        return VoidPulseShader.class;
     }
 
     @Override

@@ -17,7 +17,9 @@ import java.util.*;
 @EventBusSubscriber(modid = WeCrazy.MODID, value = Dist.CLIENT)
 public final class ClientAnimalMusicHandler {
     private static final Map<UUID, StonedAnimalMusicInstance> PLAYING = new HashMap<>();
-    private ClientAnimalMusicHandler() {}
+
+    private ClientAnimalMusicHandler() {
+    }
 
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {

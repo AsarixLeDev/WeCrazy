@@ -1,6 +1,6 @@
 package ch.asarix.wecrazy.items.smokable;
 
-import ch.asarix.wecrazy.ShaderEffect;
+import ch.asarix.wecrazy.client.shaders.AnimatedShader;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.Function;
 
 public interface SmokableItem {
-    ShaderEffect shaderEffects();
+    Class<? extends AnimatedShader> shaderEffects();
 
     List<Function<Integer, MobEffectInstance>> getMinecraftEffects();
 
