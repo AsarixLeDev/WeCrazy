@@ -1,7 +1,7 @@
 package ch.asarix.wecrazy.items;
 
-import ch.asarix.wecrazy.client.shaders.ShaderManager;
-import ch.asarix.wecrazy.items.smokable.SmokableItem;
+import ch.asarix.wecrazy.grinder.GrindingRecipe;
+import ch.asarix.wecrazy.grinder.GrindingRecipes;
 import ch.asarix.wecrazy.menu.SingleSlotMenu;
 import ch.asarix.wecrazy.menu.SingleSlotItemContainer;
 import net.minecraft.network.chat.Component;
@@ -20,28 +20,21 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
-public class BangItem extends Item implements SingleSlotContainerItem {
-    private static final int FULL_CHARGE_TICKS = 20; // 1 second
-
-    public BangItem(Properties properties) {
-        super(properties.stacksTo(1));
+public class PortableGrinderItem extends Item implements SingleSlotContainerItem {
+    private int FULL_CHARGE_TICKS = 30;
+    public PortableGrinderItem(Properties properties) {
+        super(properties);
     }
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack bang = player.getItemInHand(hand);
 
-        // Shift + right click => open inventory
-        if (player.isSecondaryUseActive()) {
-            if (!level.isClientSide()) {
-                openMenu(player, hand);
-            }
-            return InteractionResult.SUCCESS;
-        }
+        if (level.isClientSide()) return InteractionResult.SUCCESS;
 
-        // Normal right click => start charging, but only if something is loaded
-        if (!hasLoadedContent(bang)) {
-            return InteractionResult.FAIL;
+        if (!containsGrindable(bang, (ServerLevel) level)) {
+            openMenu(player, hand);
+            return InteractionResult.SUCCESS;
         }
 
         player.startUsingItem(hand);
@@ -55,16 +48,14 @@ public class BangItem extends Item implements SingleSlotContainerItem {
             return InteractionResult.PASS;
         }
 
-        if (player.isSecondaryUseActive()) {
-            if (!context.getLevel().isClientSide()) {
-                openMenu(player, context.getHand());
-            }
-            return InteractionResult.SUCCESS;
-        }
+        Level level = context.getLevel();
+
+        if (level.isClientSide()) return InteractionResult.SUCCESS;
 
         ItemStack bang = context.getItemInHand();
-        if (!hasLoadedContent(bang)) {
-            return InteractionResult.FAIL;
+        if (!containsGrindable(bang, (ServerLevel) level)) {
+            openMenu(player, context.getHand());
+            return InteractionResult.SUCCESS;
         }
 
         player.startUsingItem(context.getHand());
@@ -84,28 +75,35 @@ public class BangItem extends Item implements SingleSlotContainerItem {
     @Override
     public void onUseTick(Level level, LivingEntity living, ItemStack bang, int remainingUseDuration) {
 
-        if (!(living instanceof ServerPlayer serverPlayer)) return;
+        if (!(living instanceof ServerPlayer)) return;
 
         super.onUseTick(level, living, bang, remainingUseDuration);
 
         int usedTicks = this.getUseDuration(bang, living) - remainingUseDuration;
+        if (usedTicks % 20 == 0) {
+            level.playSound(
+                    null,
+                    living.getX(),
+                    living.getY(),
+                    living.getZ(),
+                    SoundEvents.GRINDSTONE_USE,
+                    SoundSource.PLAYERS,
+                    0.7F,
+                    0.8F
+            );
+        }
 
         if (usedTicks < FULL_CHARGE_TICKS-1) {
             return;
         }
         if (!level.isClientSide()) {
-            ItemStack consumed = consumeLoadedContent(bang);
-            if (!consumed.isEmpty()) {
-                if (consumed.getItem() instanceof SmokableItem smokableItem) {
-                    ShaderManager.start(10*20, smokableItem.shaderEffects());
-                    smokableItem.startEffects(10*20, serverPlayer);
-                }
+            if (grindLoadedContent(bang, (ServerLevel) level)) {
                 level.playSound(
                         null,
                         living.getX(),
                         living.getY(),
                         living.getZ(),
-                        SoundEvents.FIRE_EXTINGUISH,
+                        SoundEvents.GRINDSTONE_USE,
                         SoundSource.PLAYERS,
                         0.7F,
                         0.8F
@@ -133,20 +131,25 @@ public class BangItem extends Item implements SingleSlotContainerItem {
         player.openMenu(provider);
     }
 
-    private boolean hasLoadedContent(ItemStack bang) {
+    private boolean containsGrindable(ItemStack bang, ServerLevel level) {
         SingleSlotItemContainer inv = new SingleSlotItemContainer(bang);
-        return !inv.getItem(0).isEmpty();
+        ItemStack in = inv.getItem(0);
+        return GrindingRecipes.get(in, level) != null;
     }
 
-    private ItemStack consumeLoadedContent(ItemStack bang) {
-        SingleSlotItemContainer inv = new SingleSlotItemContainer(bang);
-        ItemStack inside = inv.removeItemNoUpdate(0);
+    private boolean grindLoadedContent(ItemStack grinder, ServerLevel level) {
+        SingleSlotItemContainer inv = new SingleSlotItemContainer(grinder);
+        ItemStack inside = inv.getItem(0);
+        GrindingRecipe recipe = GrindingRecipes.get(inside, level);
+        if (recipe == null) return false;
+        inv.removeAllItems();
+        inv.addItem(recipe.result());
         inv.setChanged();
-        return inside;
+        return !inv.getItem(0).isEmpty();
     }
 
     @Override
     public boolean mayPlace(ItemStack itemStack, ServerLevel level) {
-        return itemStack.getItem() instanceof SmokableItem;
+        return GrindingRecipes.get(itemStack, level) != null;
     }
 }

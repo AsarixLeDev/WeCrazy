@@ -1,8 +1,9 @@
 package ch.asarix.wecrazy.menu;
 
-import ch.asarix.wecrazy.ModItems;
 import ch.asarix.wecrazy.ModMenus;
+import ch.asarix.wecrazy.items.SingleSlotContainerItem;
 import ch.asarix.wecrazy.items.smokable.SmokableItem;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
@@ -11,7 +12,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-public class BangMenu extends AbstractContainerMenu {
+public class SingleSlotMenu extends AbstractContainerMenu {
     private static final int BANG_SLOT = 0;
     private static final int PLAYER_INV_START = 1;
     private static final int PLAYER_INV_END = 28;
@@ -22,11 +23,11 @@ public class BangMenu extends AbstractContainerMenu {
     private final ItemStack carrier;
     private final InteractionHand hand;
 
-    public BangMenu(int containerId, Inventory playerInv) {
-        this(containerId, playerInv, ItemStack.EMPTY, InteractionHand.MAIN_HAND);
+    public SingleSlotMenu(int containerId, Inventory playerInv) {
+        this(containerId, playerInv, ItemStack.EMPTY, InteractionHand.MAIN_HAND, null);
     }
 
-    public BangMenu(int containerId, Inventory playerInv, ItemStack carrier, InteractionHand hand) {
+    public SingleSlotMenu(int containerId, Inventory playerInv, ItemStack carrier, InteractionHand hand, ServerLevel level) {
         super(ModMenus.BANG_CONTAINER.get(), containerId);
 
         this.carrier = carrier;
@@ -37,7 +38,10 @@ public class BangMenu extends AbstractContainerMenu {
         this.addSlot(new Slot(this.container, 0, 80, 24) {
             @Override
             public boolean mayPlace(ItemStack stack) {
-                return stack.getItem() instanceof SmokableItem;
+                if (carrier.getItem() instanceof SingleSlotContainerItem item) {
+                    return item.mayPlace(stack, level);
+                }
+                return false;
             }
 
             @Override

@@ -6,11 +6,11 @@
     "BA"
   ],
   "key": {
-    "A": "minecraft:diamond",
+    "A": "minecraft:dirt",
     "B": "minecraft:wheat_seeds"
   },
   "result": {
     "id": "wecrazy:weed_seeds",
-    "count": 1
+    "count": 4
   }
 }

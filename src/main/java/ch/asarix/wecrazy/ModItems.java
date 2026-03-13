@@ -1,10 +1,10 @@
 package ch.asarix.wecrazy;
 
 import ch.asarix.wecrazy.items.BangItem;
+import ch.asarix.wecrazy.items.PortableGrinderItem;
 import ch.asarix.wecrazy.items.WeedLeafItem;
 import ch.asarix.wecrazy.items.smokable.MethPowderItem;
 import ch.asarix.wecrazy.items.smokable.WeedPowderItem;
-import com.jcraft.jorbis.Block;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -73,4 +73,6 @@ public class ModItems {
 
     public static final DeferredItem<BlockItem> RYE = ITEMS.registerSimpleBlockItem(
             "rye", ModBlocks.RYE);
+
+    public static final DeferredItem<Item> PORTABLE_GRINDER = ITEMS.registerItem("portable_grinder", PortableGrinderItem::new);
 }

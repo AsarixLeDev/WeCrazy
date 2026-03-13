@@ -1,13 +1,13 @@
 package ch.asarix.wecrazy.client.screen;
 
-import ch.asarix.wecrazy.menu.BangMenu;
+import ch.asarix.wecrazy.menu.SingleSlotMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class BangMenuScreen extends AbstractContainerScreen<BangMenu> {
-    public BangMenuScreen(BangMenu menu, Inventory playerInventory, Component title) {
+public class BangMenuScreen extends AbstractContainerScreen<SingleSlotMenu> {
+    public BangMenuScreen(SingleSlotMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         this.imageWidth = 176;
         this.imageHeight = 148;
