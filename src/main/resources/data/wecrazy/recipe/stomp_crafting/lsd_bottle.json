@@ -1,0 +1,11 @@
+{
+  "type": "wecrazy:stomp_crafting",
+  "ingredients": [
+    { "ingredient": "wecrazy:rye", "count": 16 },
+    { "ingredient": "minecraft:glass_bottle", "count": 1 }
+  ],
+  "result": {
+    "id": "wecrazy:lsd_bottle",
+    "count": 1
+  }
+}

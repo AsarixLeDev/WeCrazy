@@ -1,9 +1,6 @@
 package ch.asarix.wecrazy;
 
-import ch.asarix.wecrazy.blocks.GrindingBowlBlock;
-import ch.asarix.wecrazy.blocks.RyePlantBlock;
-import ch.asarix.wecrazy.blocks.WeedCropBlock;
-import ch.asarix.wecrazy.blocks.PoopyCropBlock;
+import ch.asarix.wecrazy.blocks.*;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -74,5 +71,13 @@ public class ModBlocks {
                     .instabreak()
                     .replaceable()
                     .sound(SoundType.GRASS)
+    );
+
+    public static final DeferredBlock<Block> STOMP_CRAFTER = BLOCKS.registerBlock(
+            "stomp_crafter",
+            StompCrafterBlock::new,
+            () -> BlockBehaviour.Properties.of()
+                    .strength(3.0F)
+                    .requiresCorrectToolForDrops()
     );
 }

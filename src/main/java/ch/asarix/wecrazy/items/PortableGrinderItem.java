@@ -21,7 +21,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 public class PortableGrinderItem extends Item implements SingleSlotContainerItem {
-    private int FULL_CHARGE_TICKS = 30;
+    private int FULL_CHARGE_TICKS = 40;
     public PortableGrinderItem(Properties properties) {
         super(properties);
     }
@@ -80,7 +80,7 @@ public class PortableGrinderItem extends Item implements SingleSlotContainerItem
         super.onUseTick(level, living, bang, remainingUseDuration);
 
         int usedTicks = this.getUseDuration(bang, living) - remainingUseDuration;
-        if (usedTicks % 20 == 0) {
+        if (usedTicks-1 % 20 == 0) {
             level.playSound(
                     null,
                     living.getX(),

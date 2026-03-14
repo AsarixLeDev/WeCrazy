@@ -8,6 +8,7 @@ import ch.asarix.wecrazy.items.smokable.WeedPowderItem;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -61,7 +62,9 @@ public class ModItems {
             ITEMS.registerSimpleBlockItem(ModBlocks.GRINDING_BOWL);
 
     public static final DeferredItem<Item> LSD_BOTTLE =
-            ITEMS.registerSimpleItem("lsd_bottle");
+            ITEMS.registerItem("lsd_bottle",
+                    Item::new,
+                    prop -> prop.craftRemainder(Items.GLASS_BOTTLE));
 
     public static final DeferredItem<Item> LSD_DROP =
             ITEMS.registerSimpleItem("lsd_drop", properties -> properties.food(new FoodProperties.Builder()
@@ -74,5 +77,12 @@ public class ModItems {
     public static final DeferredItem<BlockItem> RYE = ITEMS.registerSimpleBlockItem(
             "rye", ModBlocks.RYE);
 
-    public static final DeferredItem<Item> PORTABLE_GRINDER = ITEMS.registerItem("portable_grinder", PortableGrinderItem::new);
+    public static final DeferredItem<Item> PORTABLE_GRINDER =
+            ITEMS.registerItem("portable_grinder", PortableGrinderItem::new);
+
+    public static final DeferredItem<BlockItem> STOMP_CRAFTER_ITEM =
+            ITEMS.registerSimpleBlockItem("stomp_crafter", ModBlocks.STOMP_CRAFTER);
+
+    public static final DeferredItem<Item> CUPBOARD_PIECE =
+            ITEMS.registerSimpleItem("cupboard_piece");
 }

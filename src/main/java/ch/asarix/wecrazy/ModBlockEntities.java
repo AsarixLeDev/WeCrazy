@@ -1,6 +1,7 @@
 package ch.asarix.wecrazy;
 
 import ch.asarix.wecrazy.blocks.entity.GrindingBowlBlockEntity;
+import ch.asarix.wecrazy.blocks.entity.StompCrafterBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -20,4 +21,12 @@ public final class ModBlockEntities {
                             ModBlocks.GRINDING_BOWL.get()
                     )
             );
+
+    public static final Supplier<BlockEntityType<StompCrafterBlockEntity>> STOMP_CRAFTER =
+            BLOCK_ENTITY_TYPES.register("stomp_crafter",
+                    () -> new BlockEntityType<>(
+                            StompCrafterBlockEntity::new,
+                            false,
+                            ModBlocks.STOMP_CRAFTER.get()
+                    ));
 }

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "AB"
+  ],
+  "key": {
+    "A": "wecrazy:lsd_bottle",
+    "B": "wecrazy:cupboard_piece"
+  },
+  "result": {
+    "id": "wecrazy:lsd_drop",
+    "count": 16
+  }
+}
